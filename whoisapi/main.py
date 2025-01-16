@@ -15,10 +15,6 @@ def who_is(domain):
         if not data or not data.get("domain_name"):
             return jsonify({"error": f"No WHOIS data found for {domain}"}), 404
         
-        formatted_data = {
-            key: format_data(value)
-            for key, value in data.items()
-        }
         return jsonify(data)
     
     except Exception as e:
