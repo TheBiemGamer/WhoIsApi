@@ -109,6 +109,8 @@ def index():
                 text-align: left;
                 font-family: monospace;
                 min-height: 50px;
+                max-height: 400px; /* Set a max height for the result container */
+                overflow-y: auto; /* Enable scrolling when content overflows */
             }
 
             .error {
