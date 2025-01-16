@@ -2,10 +2,10 @@
 FROM python:3.13-slim
 
 # Set environment variables to prevent writing .pyc files and ensure that Flask app runs in production mode
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Set the working directory in the container to /app
+# Set the working directory to /app inside the container
 WORKDIR /app
 
 # Install system dependencies necessary for Poetry and Flask
@@ -16,17 +16,23 @@ RUN apt-get update \
 # Install Poetry (use a versioned install command to ensure compatibility)
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
+# Ensure Poetry is installed correctly
+RUN poetry --version
+
 # Add Poetry to the PATH
 ENV PATH="${PATH}:/root/.local/bin"
 
-# Copy the pyproject.toml and poetry.lock files from the /whoisapi folder into /app in the container
-COPY pyproject.toml poetry.lock* /app/
+# Copy the pyproject.toml and poetry.lock files from the /whoisapi folder into /app/whoisapi in the container
+COPY whoisapi/pyproject.toml whoisapi/poetry.lock* /app/whoisapi/
+
+# Set the working directory to /app/whoisapi (where your Flask app lives)
+WORKDIR /app/whoisapi
 
 # Install dependencies via Poetry (production dependencies only)
-RUN poetry install --no-dev --no-root
+RUN poetry install --no-dev --no-root --verbose
 
-# Copy the entire /whoisapi folder into /app in the container
-COPY whoisapi /app/
+# Copy the entire /whoisapi folder into /app/whoisapi in the container
+COPY whoisapi /app/whoisapi/
 
 # Expose the port Flask will run on
 EXPOSE 5000
