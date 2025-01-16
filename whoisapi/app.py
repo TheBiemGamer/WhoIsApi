@@ -172,19 +172,19 @@ def index():
     <body>
         <i class="fas fa-adjust theme-switcher" title="Toggle Theme" onclick="toggleTheme()"></i>
         <div class="container">
-            <h1>WHOIS Lookup Tool</h1>
+            <h1>WHOIS Lookup</h1>
             <div class="form-group">
                 <input type="text" id="domain" placeholder="Enter domain (e.g., example.com)" autofocus>
             </div>
             <button onclick="fetchWhois()">Fetch WHOIS</button>
             <div class="loading" id="loading"><i class="fas fa-spinner fa-spin"></i> Fetching data...</div>
             <div class="result" id="result"></div>
-            <footer>
+            <footer>       
                 <a href="https://pypi.org/project/python-whois/" target="_blank" title="Python-Whois Library">
                     <i class="fas fa-book icon"></i>
                 </a>
                 <a href="https://github.com/TheBiemGamer/WhoIsApi" target="_blank" title="Source Code">
-                    <i class="fas fa-code icon"></i>
+                    <i class="fa-brands fa-github icon"></i>
                 </a>
             </footer>
         </div>
