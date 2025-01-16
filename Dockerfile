@@ -23,16 +23,13 @@ RUN poetry --version
 ENV PATH="${PATH}:/root/.local/bin"
 
 # Copy the pyproject.toml and poetry.lock files from the /whoisapi folder into /app/whoisapi in the container
-COPY whoisapi/pyproject.toml whoisapi/poetry.lock* /app/whoisapi/
-
-# Set the working directory to /app/whoisapi (where your Flask app lives)
-WORKDIR /app/whoisapi
+COPY pyproject.toml poetry.lock* /app/
 
 # Install dependencies via Poetry (production dependencies only)
 RUN poetry install --no-dev --no-root --verbose
 
 # Copy the entire /whoisapi folder into /app/whoisapi in the container
-COPY whoisapi /app/whoisapi/
+COPY . /app/
 
 # Expose the port Flask will run on
 EXPOSE 5000
