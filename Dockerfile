@@ -1,7 +1,7 @@
 # Use the official Python image from the Docker Hub
 FROM python:3.9-slim
 
-# Set environment variables to prevent writing .pyc files and ensure that Flask app runs in production mode
+# Set environment variables to prevent Python from writing .pyc files and to disable output buffering
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
@@ -17,8 +17,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire project into the container
 COPY . /app
 
-# Expose the port the app runs on (Flask default port 5000)
+# Set environment variable for Flask to know the app's entry point
+ENV FLASK_APP=whoisapi/app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+
+# Expose the port Flask runs on (default is 5000)
 EXPOSE 5000
 
-# Command to run the Flask app
-CMD ["python", "/app/whoisapi/app.py"]
+# Command to run the Flask app using flask run
+CMD ["flask", "run"]
