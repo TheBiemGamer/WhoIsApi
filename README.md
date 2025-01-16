@@ -96,7 +96,7 @@ Error response (No WHOIS data found):
 
 This project relies on the **[python-whois](https://pypi.org/project/python-whois/)** library for retrieving WHOIS data. The library is a Python wrapper for querying WHOIS information from a domain.
 
-- [Python-Whois Library](https://pypi.org/project/python-whois/) - A Python package that interacts with WHOIS servers and fetches domain registration information.
+- [python-whois](https://pypi.org/project/python-whois/) - A Python package that interacts with WHOIS servers and fetches domain registration information.
 
 ---
 
