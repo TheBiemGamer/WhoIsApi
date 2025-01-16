@@ -1,11 +1,14 @@
-from flask import Flask, jsonify, render_template_string, request
-import whois
-import re
+from flask import Flask, jsonify, render_template_string, send_from_directory
+import whois, re, os
 from datetime import datetime
 
 app = Flask(__name__)
 
-# GUI page
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
 @app.route("/")
 def index():
     return render_template_string('''
