@@ -20,7 +20,7 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="${PATH}:/root/.local/bin"
 
 # Copy the pyproject.toml and poetry.lock files from the /whoisapi folder into /app in the container
-COPY whoisapi/pyproject.toml whoisapi/poetry.lock* /app/
+COPY pyproject.toml poetry.lock* /app/
 
 # Install dependencies via Poetry (production dependencies only)
 RUN poetry install --no-dev --no-root
