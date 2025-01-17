@@ -3,10 +3,9 @@
 This is a simple WHOIS lookup API built with Flask, allowing users to query domain WHOIS data. The API uses the [python-whois](https://pypi.org/project/python-whois/) module to retrieve WHOIS information.
 
 ### Features:
-- A basic web interface to enter a domain name and fetch its WHOIS data.
-- Support for dark and light themes.
-- Handles invalid or missing WHOIS data with appropriate error messages.
-- The API endpoint is `/whois/<domain>` for retrieving WHOIS data for a given domain.
+- A basic web interface to enter a domain name and use the API.
+- Dark and light themes in the UI.
+- The API endpoint is `/whois/<domain>`.
 
 ---
 
@@ -15,8 +14,8 @@ This is a simple WHOIS lookup API built with Flask, allowing users to query doma
 Follow these steps to get the project running locally.
 
 ### Prerequisites
-- [Docker](https://www.docker.com/) (for containerized setup)
-- [Python 3.9+](https://www.python.org/) (for local setup)
+- [Docker](https://www.docker.com/) (for containerized)
+- [Python 3.9+](https://www.python.org/) (for local)
 
 ### 1. Clone the repository
 
@@ -34,7 +33,7 @@ docker build -t whois-api .
 docker run -p 5000:5000 whois-api
 ```
 
-Visit `http://localhost:5000` to access the WHOIS lookup interface.
+Then visit `http://localhost:5000`.
 
 ### 3. Running Locally
 
@@ -51,7 +50,7 @@ cd whoisapi
 flask run
 ```
 
-Visit `http://localhost:5000` to access the WHOIS lookup interface.
+Then visit `http://localhost:5000`.
 
 ---
 
@@ -59,18 +58,39 @@ Visit `http://localhost:5000` to access the WHOIS lookup interface.
 
 **GET** `/whois/<domain>`
 
-- `domain`: The domain name (e.g., `example.com`) whose WHOIS data is to be fetched.
+- `domain`: The domain name (e.g., `example.com`).
 
-Example response:
+Example response (for `example.com`):
 
 ```json
 {
-  "domain_name": "example.com",
-  "registrar": "Registrar Name",
-  "creation_date": "2020-01-01T00:00:00",
-  "expiration_date": "2025-01-01T00:00:00",
-  "updated_date": "2021-01-01T00:00:00",
-  "name_servers": ["ns1.example.com", "ns2.example.com"]
+  "address": null,
+  "city": null,
+  "country": null,
+  "creation_date": "1995-08-14T04:00:00",
+  "dnssec": "signedDelegation",
+  "domain_name": "EXAMPLE.COM",
+  "emails": null,
+  "expiration_date": "2025-08-13T04:00:00",
+  "name": null,
+  "name_servers": [
+    "A.IANA-SERVERS.NET",
+    "B.IANA-SERVERS.NET"
+  ],
+  "org": null,
+  "referral_url": null,
+  "registrant_postal_code": null,
+  "registrar": "RESERVED-Internet Assigned Numbers Authority",
+  "registrar_url": "http://res-dom.iana.org",
+  "reseller": null,
+  "state": null,
+  "status": [
+    "clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited",
+    "clientTransferProhibited https://icann.org/epp#clientTransferProhibited",
+    "clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited"
+  ],
+  "updated_date": "2024-08-14T07:01:34",
+  "whois_server": "whois.iana.org"
 }
 ```
 
