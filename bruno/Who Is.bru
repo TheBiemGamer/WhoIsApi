@@ -1,0 +1,15 @@
+meta {
+  name: Who Is
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://whois.biem.host/whois?website=example.com
+  body: multipartForm
+  auth: none
+}
+
+params:query {
+  website: example.com
+}
