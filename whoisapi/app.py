@@ -270,40 +270,79 @@ def index():
         // Set dark theme as default
         document.body.classList.add('dark-theme');
 
-        // Format values: join arrays and format dates if possible
-        function formatValue(value) {
+        // This function attempts to parse a date string.
+        // It first tries the standard ISO format. If that fails and the string contains slashes,
+        // it rearranges the European-style date (dd/mm/yyyy) into an ISO-like format.
+        function parseDateString(dateStr) {
+          let parsed = Date.parse(dateStr);
+          if (!isNaN(parsed)) {
+            return new Date(parsed).toLocaleString();
+          }
+          // Check for European-style date format with slashes
+          if (dateStr.indexOf('/') !== -1) {
+            // Separate the date and time parts if available
+            let parts = dateStr.split(',');
+            let datePart = parts[0].trim();
+            let timePart = parts[1] ? parts[1].trim() : "00:00:00";
+            let dateComponents = datePart.split('/');
+            if(dateComponents.length === 3) {
+              let [day, month, year] = dateComponents;
+              day = day.padStart(2, '0');
+              month = month.padStart(2, '0');
+              let isoString = `${year}-${month}-${day}T${timePart}`;
+              parsed = Date.parse(isoString);
+              if (!isNaN(parsed)) {
+                return new Date(parsed).toLocaleString();
+              }
+            }
+          }
+          return dateStr;
+        }
+
+        // For fields defined as type "date", only use the first value (if an array) and format it.
+        function formatDateField(value) {
+          if (Array.isArray(value)) {
+            return parseDateString(value[0]);
+          }
+          return parseDateString(value);
+        }
+
+        // For non-date fields, if the value is an array show all items joined by commas.
+        function formatDefaultField(value) {
           if (Array.isArray(value)) {
             return value.join(', ');
-          }
-          if (typeof value === 'string' && !isNaN(Date.parse(value))) {
-            let date = new Date(value);
-            return date.toLocaleString();
           }
           return value;
         }
 
-        // Parse the WHOIS JSON and build a user-friendly HTML summary
+        // Parse the WHOIS JSON and build a formatted HTML summary.
+        // We add a "type" property so that date fields are handled differently.
         function parseWhoisData(data) {
           const fields = [
-            { key: "domain_name", label: "Domain Name", icon: "fa-globe" },
-            { key: "registrar", label: "Registrar", icon: "fa-building" },
-            { key: "creation_date", label: "Creation Date", icon: "fa-calendar-plus" },
-            { key: "expiration_date", label: "Expiration Date", icon: "fa-calendar-times" },
-            { key: "updated_date", label: "Updated Date", icon: "fa-calendar-check" },
-            { key: "name_servers", label: "Name Servers", icon: "fa-server" },
-            { key: "emails", label: "Emails", icon: "fa-envelope" },
-            { key: "status", label: "Status", icon: "fa-info-circle" },
-            { key: "dnssec", label: "DNSSEC", icon: "fa-shield-alt" }
+            { key: "domain_name", label: "Domain Name", icon: "fa-globe", type: "default" },
+            { key: "registrar", label: "Registrar", icon: "fa-building", type: "default" },
+            { key: "creation_date", label: "Creation Date", icon: "fa-calendar-plus", type: "date" },
+            { key: "expiration_date", label: "Expiration Date", icon: "fa-calendar-times", type: "date" },
+            { key: "updated_date", label: "Updated Date", icon: "fa-calendar-check", type: "date" },
+            { key: "name_servers", label: "Name Servers", icon: "fa-server", type: "default" },
+            { key: "emails", label: "Emails", icon: "fa-envelope", type: "default" },
+            { key: "status", label: "Status", icon: "fa-info-circle", type: "default" },
+            { key: "dnssec", label: "DNSSEC", icon: "fa-shield-alt", type: "default" }
           ];
           
           let html = '<h3>WHOIS Data:</h3><div class="whois-info">';
-          
           fields.forEach(field => {
             if (data[field.key]) {
+              let formattedValue;
+              if (field.type === "date") {
+                formattedValue = formatDateField(data[field.key]);
+              } else {
+                formattedValue = formatDefaultField(data[field.key]);
+              }
               html += `<div class="whois-field">
                 <i class="fas ${field.icon} field-icon"></i>
                 <span class="field-label">${field.label}:</span>
-                <span class="field-value">${formatValue(data[field.key])}</span>
+                <span class="field-value">${formattedValue}</span>
               </div>`;
             }
           });
@@ -311,17 +350,17 @@ def index():
           return html;
         }
 
-        // Fetch WHOIS data with smooth animations for showing/hiding sections
+        // Fetch WHOIS data with smooth animations.
         async function fetchWhois() {
           const domain = document.getElementById('domain').value.trim();
           const resultDiv = document.getElementById('result');
           const loadingDiv = document.getElementById('loading');
           
-          // Clear previous results and collapse the result div
+          // Clear previous results and collapse the result div.
           resultDiv.innerHTML = '';
           resultDiv.classList.remove('show');
           
-          // Show the loading spinner (expand its container)
+          // Show the loading spinner.
           loadingDiv.classList.add('active');
 
           if (!domain) {
@@ -336,7 +375,6 @@ def index():
             const data = await response.json();
 
             if (response.ok) {
-              // Instead of showing raw JSON, parse and display formatted info.
               resultDiv.innerHTML = parseWhoisData(data);
             } else {
               resultDiv.innerHTML = `<p class="error">${data.error || 'An error occurred.'}</p>`;
@@ -344,7 +382,6 @@ def index():
           } catch (error) {
             resultDiv.innerHTML = '<p class="error">Failed to fetch WHOIS data. Please try again.</p>';
           } finally {
-            // Hide loading spinner and expand result container with a slight delay for smoothness
             loadingDiv.classList.remove('active');
             setTimeout(() => {
               resultDiv.classList.add('show');
@@ -352,14 +389,14 @@ def index():
           }
         }
 
-        // Allow pressing "Enter" to trigger the lookup
+        // Trigger lookup when the user presses "Enter"
         document.getElementById('domain').addEventListener('keypress', function (event) {
           if (event.key === 'Enter') {
             fetchWhois();
           }
         });
 
-        // Toggle between dark and light themes
+        // Toggle between dark and light themes.
         function toggleTheme() {
           const body = document.body;
           if (body.classList.contains('dark-theme')) {
