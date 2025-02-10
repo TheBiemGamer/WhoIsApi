@@ -120,6 +120,10 @@ Error response (No WHOIS data found):
 
 ---
 
+## Deploying with Vercel
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FTheBiemGamer%2FWhoIsApi)
+
 ## Credits
 
 This project relies on the **[python-whois](https://pypi.org/project/python-whois/)** library for retrieving WHOIS data. The library is a Python wrapper for querying WHOIS information from a domain.
