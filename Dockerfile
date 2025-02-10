@@ -18,7 +18,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 
 # Expose the port Waitress will run on
-EXPOSE 8000
+EXPOSE 5000
 
 # Command to run the Flask app using Waitress
-CMD ["waitress-serve", "--host=0.0.0.0", "--port=8000", "whoisapi.app:app"]
+CMD ["waitress-serve", "--host=0.0.0.0", "--port=5000", "whoisapi.app:app"]
