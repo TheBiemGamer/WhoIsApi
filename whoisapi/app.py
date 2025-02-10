@@ -252,9 +252,9 @@ def whois_via_path(domain):
 
 @app.route("/whois")
 def whois_via_query():
-    domain = request.args.get('website')
+    domain = request.args.get('domain')
     if not domain:
-        return jsonify({"error": "Domain not provided. Please use the 'website' parameter."}), 400
+        return jsonify({"error": "Domain not provided. Please use the 'domain' parameter."}), 400
     response_data, status_code = get_whois_response(domain)
     return jsonify(response_data), status_code
 
