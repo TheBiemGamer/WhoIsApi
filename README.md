@@ -1,4 +1,5 @@
-![WhoIs API](/assets/WhoIs.png)
+<img src="/assets/WhoIs.png" alt="WhoIs API" width="300">
+
 # WhoIs API
 
 This is a simple WHOIS lookup API built with Flask, allowing users to query domain WHOIS data. The API uses the [python-whois](https://pypi.org/project/python-whois/) module to retrieve WHOIS information.
