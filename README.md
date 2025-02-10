@@ -5,7 +5,7 @@ This is a simple WHOIS lookup API built with Flask, allowing users to query doma
 ### Features:
 - A basic web interface to enter a domain name and use the API.
 - Dark and light themes in the UI.
-- The API endpoint is `/whois/<domain>`.
+- The API endpoint is `/whois?domain=<domain>` (alias `/whois/<domain>`).
 
 ---
 
@@ -43,11 +43,17 @@ To run the app locally, install the dependencies:
 pip install -r requirements.txt
 ```
 
-Then run the app:
+Then run the app either with flask:
 
 ```bash
 cd whoisapi
 flask run
+```
+
+Or with something more production ready like waitress:
+
+```bash
+waitress-serve whoisapi.app:app
 ```
 
 Then visit `http://localhost:5000`.
