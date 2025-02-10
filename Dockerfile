@@ -17,12 +17,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire project into the container
 COPY . /app
 
-# Set environment variable for Flask to know the app's entry point
-ENV FLASK_APP=whoisapi/app.py
-ENV FLASK_RUN_HOST=0.0.0.0
+# Expose the port Waitress will run on
+EXPOSE 8000
 
-# Expose the port Flask runs on (default is 5000)
-EXPOSE 5000
-
-# Command to run the Flask app using flask run
-CMD ["flask", "run"]
+# Command to run the Flask app using Waitress
+CMD ["waitress-serve", "--host=0.0.0.0", "--port=8000", "whoisapi.app:app"]
