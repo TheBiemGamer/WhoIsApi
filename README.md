@@ -1,4 +1,4 @@
-<img src="/assets/WhoIs.png" alt="WhoIs API" width="300">
+<img src="/assets/WhoIs.png" alt="WhoIs API" width="500">
 
 # WhoIs API
 
