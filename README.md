@@ -56,7 +56,7 @@ Then visit `http://localhost:5000`.
 
 ## API Endpoint
 
-**GET** `/whois/<domain>`
+**GET** `/whois/<domain>` or `/whois?domain=<domain>`
 
 - `domain`: The domain name (e.g., `example.com`).
 
