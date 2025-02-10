@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, send_from_directory, request
+from flask import Flask, jsonify, render_template, request
 import whois, re, os
 from datetime import datetime
 
@@ -20,10 +20,6 @@ def whois_via_query():
         return jsonify({"error": "Domain not provided. Please use the 'domain' parameter."}), 400
     response_data, status_code = get_whois_response(domain)
     return jsonify(response_data), status_code
-
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico')
 
 def is_valid_domain(domain):
     domain_regex = r"^(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.(?!-)[A-Za-z]{2,}$"
