@@ -4,6 +4,8 @@
 
 This is a simple WHOIS lookup API built with Flask, allowing users to query domain WHOIS data. The API uses the [python-whois](https://pypi.org/project/python-whois/) module to retrieve WHOIS information.
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FTheBiemGamer%2FWhoIsApi)
+
 ### Features:
 - A web interface to enter a domain name and use the API.
 - Dark and light themes in the UI.
@@ -119,10 +121,6 @@ Error response (No WHOIS data found):
 ```
 
 ---
-
-## Deploying with Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FTheBiemGamer%2FWhoIsApi)
 
 ## Credits
 
