@@ -38,6 +38,20 @@ function formatDefaultField(value) {
   return value;
 }
 
+function formatLinkField(value, url) {
+  let formattedValue = formatDefaultField(value);
+  if (url) {
+    if (Array.isArray(url)) url = url[0];
+    if (typeof url === "string" && url.trim() !== "") {
+      if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "http://" + url;
+      }
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer">${formattedValue}</a>`;
+    }
+  }
+  return formattedValue;
+}
+
 function parseWhoisData(data) {
   const fields = [
     {
@@ -50,7 +64,8 @@ function parseWhoisData(data) {
       key: "registrar",
       label: "Registrar",
       icon: "fa-building",
-      type: "default",
+      type: "link",
+      urlKey: "registrar_url",
     },
     {
       key: "creation_date",
@@ -79,22 +94,49 @@ function parseWhoisData(data) {
     { key: "emails", label: "Emails", icon: "fa-envelope", type: "default" },
     { key: "status", label: "Status", icon: "fa-info-circle", type: "default" },
     { key: "dnssec", label: "DNSSEC", icon: "fa-shield-alt", type: "default" },
+    { key: "name", label: "Registrant Name", icon: "fa-user", type: "default" },
+    { key: "org", label: "Organization", icon: "fa-sitemap", type: "default" },
+    {
+      key: "address",
+      label: "Address",
+      icon: "fa-map-marker-alt",
+      type: "default",
+    },
+    { key: "city", label: "City", icon: "fa-city", type: "default" },
+    { key: "state", label: "State", icon: "fa-map-pin", type: "default" },
+    { key: "country", label: "Country", icon: "fa-flag", type: "default" },
+    {
+      key: "registrant_postal_code",
+      label: "Postal Code",
+      icon: "fa-envelope",
+      type: "default",
+    },
+    {
+      key: "whois_server",
+      label: "WHOIS Server",
+      icon: "fa-server",
+      type: "default",
+    },
   ];
 
   let html = '<h3>WHOIS Data:</h3><div class="whois-info">';
   fields.forEach((field) => {
-    if (data[field.key]) {
+    const value = data[field.key];
+    if (value) {
       let formattedValue;
       if (field.type === "date") {
-        formattedValue = formatDateField(data[field.key]);
+        formattedValue = formatDateField(value);
+      } else if (field.type === "link") {
+        const url = data[field.urlKey];
+        formattedValue = formatLinkField(value, url);
       } else {
-        formattedValue = formatDefaultField(data[field.key]);
+        formattedValue = formatDefaultField(value);
       }
       html += `<div class="whois-field">
-                <i class="fas ${field.icon} field-icon"></i>
-                <span class="field-label">${field.label}:</span>
-                <span class="field-value">${formattedValue}</span>
-              </div>`;
+                  <i class="fas ${field.icon} field-icon"></i>
+                  <span class="field-label">${field.label}:</span>
+                  <span class="field-value">${formattedValue}</span>
+                </div>`;
     }
   });
   html += "</div>";
