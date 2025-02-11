@@ -1,6 +1,6 @@
 # WhoIs API
 
-![Tests](https://github.com/TheBiemGamer/WhoIsApi/actions/workflows/test.yml/badge.svg)
+[![Tests](https://github.com/TheBiemGamer/WhoIsApi/actions/workflows/test.yml/badge.svg)](https://github.com/TheBiemGamer/WhoIsApi/actions/workflows/test.yml)
 
 <img src="/assets/WhoIs.png" alt="WhoIs API" width="500">
 
