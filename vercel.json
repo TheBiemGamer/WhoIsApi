@@ -1,7 +1,4 @@
 {
     "builds": [{"src": "whoisapi/app.py", "use": "@vercel/python"}],
-    "routes": [{"src": "/(.*)", "dest": "whoisapi/app.py"}],
-    "env": {
-        "ENABLE_RATE_LIMIT": "true"
-    }
+    "routes": [{"src": "/(.*)", "dest": "whoisapi/app.py"}]
 }

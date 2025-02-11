@@ -10,6 +10,7 @@ This is a simple WHOIS lookup API built with Flask, allowing users to query doma
 - A web interface to enter a domain name and use the API.
 - Dark and light themes in the UI.
 - The API endpoint is `/whois?domain=<domain>` (alias `/whois/<domain>`).
+- Rate limiting copy the `.env.example` to `.env` for enabling and disabling (enabled by default).
 
 ---
 
