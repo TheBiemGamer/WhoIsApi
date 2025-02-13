@@ -1,4 +1,5 @@
 FROM python:3.9-slim
+LABEL org.opencontainers.image.source https://github.com/thebiemgamer/whoisapi
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
