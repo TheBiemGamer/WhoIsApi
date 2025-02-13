@@ -12,6 +12,7 @@ dependencies = [
     "python-whois (>=0.9.5,<0.10.0)",
     "flask-limiter (>=3.10.1,<4.0.0)",
     "python-dotenv (>=1.0.1,<2.0.0)",
+    "gunicorn (>=23.0.0,<24.0.0)",
 ]
 
 [build-system]
