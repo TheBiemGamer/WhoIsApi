@@ -44,7 +44,7 @@ function formatLinkField(value, url) {
     if (Array.isArray(url)) url = url[0];
     if (typeof url === "string" && url.trim() !== "") {
       if (!url.startsWith("http://") && !url.startsWith("https://")) {
-        url = "http://" + url;
+        url = "https://" + url;
       }
       return `<a href="${url}" target="_blank" rel="noopener noreferrer">${formattedValue}</a>`;
     }
