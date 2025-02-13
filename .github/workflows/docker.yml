@@ -36,11 +36,3 @@ jobs:
         run: |
           docker push ghcr.io/thebiemgamer/whoisapi:${{ github.sha }}
           docker push ghcr.io/thebiemgamer/whoisapi:latest
-
-      - name: Set package visibility to public
-        run: |
-          curl -X PATCH \
-            -H "Authorization: token ${{ secrets.GHCR_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            -d '{"visibility": "public"}' \
-            "https://api.github.com/user/packages/container/ghcr.io%2F${{ github.actor }}%2Fwhoisapi%2F${{ github.sha }}/visibility"

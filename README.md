@@ -1,79 +1,132 @@
 # WhoIs API
 
-[![Tests](https://github.com/TheBiemGamer/WhoIsApi/actions/workflows/test.yml/badge.svg)](https://github.com/TheBiemGamer/WhoIsApi/actions/workflows/test.yml)
+[![Tests](https://github.com/TheBiemGamer/WhoIsApi/actions/workflows/test.yml/badge.svg)](https://github.com/TheBiemGamer/WhoIsApi/actions/workflows/test.yml)  
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FTheBiemGamer%2FWhoIsApi)
 
 <img src="/assets/WhoIs.png" alt="WhoIs API" width="500">
 
-This is a simple WHOIS lookup API built with Flask, allowing users to query domain WHOIS data. The API uses the [python-whois](https://pypi.org/project/python-whois/) module to retrieve WHOIS information.
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FTheBiemGamer%2FWhoIsApi)
-
-### Features:
-- A web interface to enter a domain name and use the API.
-- Dark and light themes in the UI.
-- The API endpoint is `/whois?domain=<domain>` (alias `/whois/<domain>`).
-- Rate limiting copy the `.env.example` to `.env` for enabling and disabling (enabled by default).
+A simple WHOIS lookup API built with Flask that allows users to query domain registration data. It leverages the [python-whois](https://pypi.org/project/python-whois/) module to retrieve comprehensive WHOIS information.
 
 ---
 
-## Setup Instructions
+## Features
 
-Follow these steps to get the project running locally.
+- **Web Interface:** Easily enter a domain name to query the API.
+- **Theming:** Enjoy both dark and light themes in the UI.
+- **Flexible Endpoints:**  
+  - `/whois?domain=<domain>`
+  - `/whois/<domain>`
+- **Rate Limiting:** Enabled by default. To customize, copy `.env.example` to `.env` and adjust the settings.
+
+---
+
+## Table of Contents
+
+- [Installation via Docker (Online)](#installation-via-docker-online)
+- [Local Setup Instructions](#local-setup-instructions)
+  - [Prerequisites](#prerequisites)
+  - [Clone the Repository](#1-clone-the-repository)
+  - [Docker Setup (Build Locally)](#2-docker-setup-build-locally)
+  - [Running Locally Without Docker](#3-running-locally-without-docker)
+- [API Endpoint](#api-endpoint)
+- [Credits](#credits)
+- [License](#license)
+- [Contributing](#contributing)
+- [Author](#author)
+
+---
+
+## Installation via Docker (Online)
+
+You can run the pre-built Docker image from GitHub's Container Registry without needing to clone the repository:
+
+```bash
+docker run -p 5000:5000 ghcr.io/thebiemgamer/whoisapi:latest
+```
+
+After running the container, visit [http://localhost:5000](http://localhost:5000) to access the API.
+
+---
+
+## Local Setup Instructions
 
 ### Prerequisites
-- [Docker](https://www.docker.com/) (for containerized)
-- [Python 3.9+](https://www.python.org/) (for local)
 
-### 1. Clone the repository
+- [Docker](https://www.docker.com/) *(optional — for containerized deployment)*
+- [Python 3.9+](https://www.python.org/) *(for local development)*
+
+### 1. Clone the Repository
+
+For local development, clone the repository:
 
 ```bash
 git clone https://github.com/TheBiemGamer/WhoIsApi.git
 cd WhoIsApi
 ```
 
-### 2. Docker Setup (Optional)
+### 2. Docker Setup (Build Locally)
 
-To build and run the project in a Docker container, follow these steps:
+If you prefer to build your own Docker image:
 
 ```bash
 docker build -t whois-api .
 docker run -p 5000:5000 whois-api
 ```
 
-Then visit `http://localhost:5000`.
+Visit [http://localhost:5000](http://localhost:5000) after the container starts.
 
-### 3. Running Locally
+### 3. Running Locally Without Docker
 
-To run the app locally, install the dependencies:
+If you'd like to run the app directly on your machine:
 
-```bash
-pip install -r requirements.txt
-```
+1. **Install Dependencies**
 
-Then run the app either with flask:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-```bash
-cd whoisapi
-flask run
-```
+2. **Start the Application**
 
-Or with something more production ready like waitress:
+   - **Using Flask's Development Server:**
 
-```bash
-waitress-serve whoisapi.app:app
-```
+    ```bash
+    cd whoisapi
+    flask run
+    ```
 
-Then visit `http://localhost:5000`.
+   - **Using Gunicorn for a Production-like Environment:**
+
+    ```bash
+    gunicorn -w 4 -b 0.0.0.0:5000 whoisapi.app:app
+    ```
+
+Then, open your browser at [http://localhost:5000](http://localhost:5000).
 
 ---
 
 ## API Endpoint
 
-**GET** `/whois/<domain>` or `/whois?domain=<domain>`
+### GET `/whois/<domain>` or `/whois?domain=<domain>`
 
-- `domain`: The domain name (e.g., `example.com`).
+Query WHOIS data for a specified domain.
 
-Example response (for `example.com`):
+#### Parameters
+
+- **domain**: The domain name to look up (e.g., `example.com`).
+
+#### Example Request
+
+```
+GET /whois/example.com
+```
+
+or
+
+```
+GET /whois?domain=example.com
+```
+
+#### Example Response
 
 ```json
 {
@@ -107,44 +160,47 @@ Example response (for `example.com`):
 }
 ```
 
-Error response (Invalid domain):
+#### Error Responses
 
-```json
-{
-  "error": "Invalid domain name"
-}
-```
+- **Invalid Domain Name:**
 
-Error response (No WHOIS data found):
+  ```json
+  {
+    "error": "Invalid domain name"
+  }
+  ```
 
-```json
-{
-  "error": "No WHOIS data found for example.com"
-}
-```
+- **No WHOIS Data Found:**
+
+  ```json
+  {
+    "error": "No WHOIS data found for example.com"
+  }
+  ```
 
 ---
 
 ## Credits
 
-This project relies on the **[python-whois](https://pypi.org/project/python-whois/)** library for retrieving WHOIS data. The library is a Python wrapper for querying WHOIS information from a domain.
-
-- [python-whois](https://pypi.org/project/python-whois/) - A Python package that interacts with WHOIS servers and fetches domain registration information.
+This project uses the [python-whois](https://pypi.org/project/python-whois/) library to fetch WHOIS information.  
+- **python-whois:** A Python wrapper for querying WHOIS servers and retrieving domain registration data.
 
 ---
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
 ---
 
 ## Contributing
 
-If you'd like to contribute to this project, feel free to fork it and create a pull request. Any improvements or suggestions are welcome!
+Contributions are welcome! If you’d like to contribute, please fork the repository and submit a pull request with your improvements or suggestions.
 
 ---
 
 ## Author
 
 - [TheBiemGamer](https://github.com/TheBiemGamer)
+
+---
