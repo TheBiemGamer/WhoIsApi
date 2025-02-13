@@ -28,8 +28,20 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/thebiemgamer/whoisapi/who-is-api:${{ github.sha }} .
+          # Build the image with both the commit SHA and 'latest' tag
+          docker build -t ghcr.io/${{ github.actor }}/whoisapi:${{ github.sha }} \
+                       -t ghcr.io/${{ github.actor }}/whoisapi:latest .
 
       - name: Push Docker image
         run: |
-          docker push ghcr.io/thebiemgamer/whoisapi/who-is-api:${{ github.sha }}
+          # Push both the SHA and 'latest' tagged images
+          docker push ghcr.io/${{ github.actor }}/whoisapi:${{ github.sha }}
+          docker push ghcr.io/${{ github.actor }}/whoisapi:latest
+
+      - name: Set package visibility to public
+        run: |
+          curl -X PATCH \
+            -H "Authorization: token ${{ secrets.GHCR_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -d '{"visibility": "public"}' \
+            "https://api.github.com/user/packages/container/ghcr.io%2F${{ github.actor }}%2Fwhoisapi%2F${{ github.sha }}/visibility"
