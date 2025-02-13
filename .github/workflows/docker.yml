@@ -28,8 +28,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/${{ github.actor }}/whoisapi/who-is-api:${{ github.sha }} .
+          docker build -t ghcr.io/thebiemgamer/whoisapi/who-is-api:${{ github.sha }} .
 
       - name: Push Docker image
         run: |
-          docker push ghcr.io/${{ github.actor }}/whoisapi/who-is-api:${{ github.sha }}
+          docker push ghcr.io/thebiemgamer/whoisapi/who-is-api:${{ github.sha }}
