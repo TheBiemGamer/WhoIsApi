@@ -35,8 +35,8 @@ jobs:
       - name: Push Docker image
         run: |
           # Push both the SHA and 'latest' tagged images
-          docker push ghcr.io/${{ github.actor }}/whoisapi:${{ github.sha }}
-          docker push ghcr.io/${{ github.actor }}/whoisapi:latest
+          docker push ghcr.io/thebiemgamer/whoisapi:${{ github.sha }}
+          docker push ghcr.io/thebiemgamer/whoisapi:latest
 
       - name: Set package visibility to public
         run: |
