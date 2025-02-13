@@ -29,12 +29,11 @@ jobs:
       - name: Build Docker image
         run: |
           # Build the image with both the commit SHA and 'latest' tag
-          docker build -t ghcr.io/${{ github.actor }}/whoisapi:${{ github.sha }} \
-                       -t ghcr.io/${{ github.actor }}/whoisapi:latest .
+          docker build -t ghcr.io/thebiemgamer/whoisapi:${{ github.sha }} \
+                       -t ghcr.io/thebiemgamer/whoisapi:latest .
 
       - name: Push Docker image
         run: |
-          # Push both the SHA and 'latest' tagged images
           docker push ghcr.io/thebiemgamer/whoisapi:${{ github.sha }}
           docker push ghcr.io/thebiemgamer/whoisapi:latest
 
